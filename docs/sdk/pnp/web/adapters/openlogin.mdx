@@ -24,8 +24,8 @@ import ConnectToExample from "@site/src/common/sdk/pnp/web/_connect-to-example.m
 
 The default adapter of Web3Auth is the `openlogin-adapter`. This adapter is a wrapper around the
 [`openlogin`](https://github.com/torusresearch/OpenLoginSdk) library from Web3Auth and enables the social login features. By default, Web3Auth has
-certain configurations set to enable a quick integration, however, for customizing features, like [Whitelabel](/pnp/features/whitelabel),
-[Custom Authentication](/pnp/features/custom-authentication), etc. you need to configure the Openlogin Adapter. With the Openlogin Adapter package
+certain configurations set to enable a quick integration, however, for customizing features, like [Whitelabel](/features/whitelabel),
+[Custom Authentication](/features/custom-authentication), etc. you need to configure the Openlogin Adapter. With the Openlogin Adapter package
 installed and instantiated, you can explore several options and customize the login experience of the user as per your needs.
 
 ## Basic Details
@@ -76,11 +76,11 @@ This OpenloginAdapter constructor takes an object with `OpenloginAdapterOptions`
 
 <TabItem value="table">
 
-| Parameter             | type                                  |
-| --------------------- | ------------------------------------- |
-| `adapterSettings?`    | [OpenLoginOptions](#openloginoptions) |
-| `loginSettings?`      | [LoginSettings](#loginsettings)       |
-| `privateKeyProvider?` | [PrivateKeyProvider](#loginsettings)  |
+| Parameter             | type                                            |
+| --------------------- | ----------------------------------------------- |
+| `adapterSettings?`    | [OpenLoginOptions](#openlogin-adapter-settings) |
+| `loginSettings?`      | [LoginSettings](#loginsettings)                 |
+| `privateKeyProvider?` | [PrivateKeyProvider](#loginsettings)            |
 
 </TabItem>
 
@@ -99,8 +99,6 @@ interface OpenloginAdapterOptions extends BaseAdapterSettings {
 </TabItem>
 
 </Tabs>
-
-### Custom Chain Config
 
 ### Openlogin Adapter Settings
 
@@ -309,7 +307,7 @@ const openloginAdapter = new OpenloginAdapter({
     whiteLabel: {
       logoLight: "https://web3auth.io/images/w3a-L-Favicon-1.svg",
       logoDark: "https://web3auth.io/images/w3a-D-Favicon-1.svg",
-      defaultLanguage: "en", // en, de, ja, ko, zh, es, fr, pt, nl
+      defaultLanguage: "en", // en, de, ja, ko, zh, es, fr, pt, nl, tr
       mode: "dark", // whether to enable dark, light or auto mode. defaultValue: auto [ system theme]
     },
     // SCALE and above plan only feature
@@ -385,7 +383,7 @@ const openloginAdapter = new OpenloginAdapter({
       appUrl: "https://web3auth.io",
       logoLight: "https://web3auth.io/images/w3a-L-Favicon-1.svg",
       logoDark: "https://web3auth.io/images/w3a-D-Favicon-1.svg",
-      defaultLanguage: "en", // en, de, ja, ko, zh, es, fr, pt, nl
+      defaultLanguage: "en", // en, de, ja, ko, zh, es, fr, pt, nl, tr
       mode: "auto", // whether to enable dark mode. defaultValue: false
       theme: {
         primary: "#768729",

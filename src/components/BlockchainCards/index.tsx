@@ -1,4 +1,3 @@
-
 import styles from "./styles.module.css";
 
 import Tiles from "@theme/Tiles";
@@ -12,7 +11,7 @@ export const tileGroupsData = [
         key: "ethereum",
         title: "Ethereum",
         icon: "logo-ethereum.png",
-        path: "./connect-blockchain/ethereum",
+        path: "./connect-blockchain/evm/ethereum",
       },
       {
         key: "solana",
@@ -123,6 +122,12 @@ export const tileGroupsData = [
         title: "Polkadot",
         icon: "logo-polkadot.png",
         path: "./connect-blockchain/polkadot",
+      },
+      {
+        key: "polymesh",
+        title: "Polymesh",
+        icon: "logo-polymesh.png",
+        path: "./connect-blockchain/polymesh",
       },
       {
         key: "aptos",

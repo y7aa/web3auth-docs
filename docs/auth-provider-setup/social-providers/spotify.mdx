@@ -1,7 +1,7 @@
 ---
 title: Spotify Login with Web3Auth
 sidebar_label: Spotify
-displayed_sidebar: docs
+displayed_sidebar: resources
 description: "Spotify Login with Web3Auth | Documentation - Web3Auth"
 ---
 
@@ -42,19 +42,20 @@ const chainConfig = {
   chainId: "0x1",
   rpcTarget: "https://rpc.ankr.com/eth",
   displayName: "Ethereum Mainnet",
-  blockExplorer: "https://etherscan.io",
+  blockExplorerUrl: "https://etherscan.io",
   ticker: "ETH",
   tickerName: "Ethereum",
+  logo: "https://images.toruswallet.io/ethereum.svg",
 };
-
-const web3auth = new Web3Auth({
-  clientId,
-  chainConfig,
-  web3AuthNetwork: "sapphire_mainnet",
-});
 
 const privateKeyProvider = new EthereumPrivateKeyProvider({
   config: { chainConfig },
+});
+
+const web3auth = new Web3AuthNoModal({
+  clientId,
+  web3AuthNetwork: "sapphire_mainnet",
+  privateKeyProvider: privateKeyProvider,
 });
 
 const openloginAdapter = new OpenloginAdapter({
@@ -70,6 +71,7 @@ const openloginAdapter = new OpenloginAdapter({
     },
   },
 });
+
 web3auth.configureAdapter(openloginAdapter);
 setWeb3auth(web3auth);
 

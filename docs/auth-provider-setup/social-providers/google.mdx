@@ -2,7 +2,7 @@
 title: Google Social Login with Web3Auth
 sidebar_label: Google
 
-displayed_sidebar: docs
+displayed_sidebar: resources
 description: "Google Social Login with Web3Auth | Documentation - Web3Auth"
 ---
 
@@ -11,7 +11,7 @@ import Tabs from "@theme/Tabs";
 
 :::info
 
-**[Using Google with Web3Auth Guide](/content-hub/guides/google)**
+**[Using Google with Web3Auth Guide](/guides/google)**
 
 :::
 
@@ -22,7 +22,7 @@ import Tabs from "@theme/Tabs";
 
    - https://auth.web3auth.io/auth
 
-   ![Google OAuth2.0 App Dashboard](/content-hub/social-providers/google/google-app-redirect-uri.png)
+   ![Google OAuth2.0 App Dashboard](/guides/social-providers/google/google-app-redirect-uri.png)
 
 3. Obtain the OAuth `Client ID` from your [App on the Google Developer dashboard](https://console.developers.google.com/)
 
@@ -57,27 +57,34 @@ values={[
 ```tsx
 import { Web3Auth } from "@web3auth/modal";
 import { OpenloginAdapter } from "@web3auth/openlogin-adapter";
+import { EthereumPrivateKeyProvider } from "@web3auth/ethereum-provider";
 
 const clientId = "BPi5PB_UiIZ-cPz1GtV5i1I2iOSOHuimiXBI0e-Oe_u6X3oVAbCiAZOTEBtTXw4tsluTITPqA8zMsfxIKMjiqNQ";
 // get it from https://dashboard.web3auth.io by creating a Plug n Play project.
 
+const chainConfig = {
+  chainNamespace: "eip155",
+  chainId: "0x1",
+  rpcTarget: "https://rpc.ankr.com/eth",
+  displayName: "Ethereum Mainnet",
+  blockExplorerUrl: "https://etherscan.io",
+  ticker: "ETH",
+  tickerName: "Ethereum",
+  logo: "https://images.toruswallet.io/ethereum.svg",
+};
+
+const privateKeyProvider = new EthereumPrivateKeyProvider({
+  config: { chainConfig },
+});
+
 const web3auth = new Web3Auth({
   clientId,
   web3AuthNetwork: "sapphire_mainnet",
-  chainConfig: {
-    chainNamespace: "eip155",
-    chainId: "0x1",
-    rpcTarget: "https://rpc.ankr.com/eth",
-    displayName: "Ethereum Mainnet",
-    blockExplorer: "https://etherscan.io",
-    ticker: "ETH",
-    tickerName: "Ethereum",
-  },
+  privateKeyProvider: privateKeyProvider,
 });
 
 const openloginAdapter = new OpenloginAdapter({
   adapterSettings: {
-    uxMode: "popup",
     loginConfig: {
       // Google login
       google: {
@@ -88,6 +95,7 @@ const openloginAdapter = new OpenloginAdapter({
     },
   },
 });
+
 web3auth.configureAdapter(openloginAdapter);
 
 // Initialize Modal
@@ -114,19 +122,20 @@ const chainConfig = {
   chainId: "0x1",
   rpcTarget: "https://rpc.ankr.com/eth",
   displayName: "Ethereum Mainnet",
-  blockExplorer: "https://etherscan.io",
+  blockExplorerUrl: "https://etherscan.io",
   ticker: "ETH",
   tickerName: "Ethereum",
+  logo: "https://images.toruswallet.io/ethereum.svg",
 };
-
-const web3auth = new Web3Auth({
-  clientId,
-  chainConfig,
-  web3AuthNetwork: "sapphire_mainnet",
-});
 
 const privateKeyProvider = new EthereumPrivateKeyProvider({
   config: { chainConfig },
+});
+
+const web3auth = new Web3AuthNoModal({
+  clientId,
+  web3AuthNetwork: "sapphire_mainnet",
+  privateKeyProvider: privateKeyProvider,
 });
 
 const openloginAdapter = new OpenloginAdapter({
@@ -142,6 +151,7 @@ const openloginAdapter = new OpenloginAdapter({
     },
   },
 });
+
 web3auth.configureAdapter(openloginAdapter);
 setWeb3auth(web3auth);
 
@@ -191,18 +201,25 @@ import { OpenloginAdapter } from "@web3auth/openlogin-adapter";
 const clientId = "BPi5PB_UiIZ-cPz1GtV5i1I2iOSOHuimiXBI0e-Oe_u6X3oVAbCiAZOTEBtTXw4tsluTITPqA8zMsfxIKMjiqNQ";
 // get it from https://dashboard.web3auth.io by creating a Plug n Play project.
 
+const chainConfig = {
+  chainNamespace: "eip155",
+  chainId: "0x1",
+  rpcTarget: "https://rpc.ankr.com/eth",
+  displayName: "Ethereum Mainnet",
+  blockExplorerUrl: "https://etherscan.io",
+  ticker: "ETH",
+  tickerName: "Ethereum",
+  logo: "https://images.toruswallet.io/ethereum.svg",
+};
+
+const privateKeyProvider = new EthereumPrivateKeyProvider({
+  config: { chainConfig },
+});
+
 const web3auth = new Web3Auth({
   clientId,
   web3AuthNetwork: "sapphire_mainnet",
-  chainConfig: {
-    chainNamespace: "eip155",
-    chainId: "0x1",
-    rpcTarget: "https://rpc.ankr.com/eth",
-    displayName: "Ethereum Mainnet",
-    blockExplorer: "https://etherscan.io",
-    ticker: "ETH",
-    tickerName: "Ethereum",
-  },
+  privateKeyProvider: privateKeyProvider,
 });
 
 const openloginAdapter = new OpenloginAdapter({
@@ -218,6 +235,7 @@ const openloginAdapter = new OpenloginAdapter({
     },
   },
 });
+
 web3auth.configureAdapter(openloginAdapter);
 
 // Initialize Modal
@@ -244,25 +262,25 @@ const chainConfig = {
   chainId: "0x1",
   rpcTarget: "https://rpc.ankr.com/eth",
   displayName: "Ethereum Mainnet",
-  blockExplorer: "https://etherscan.io",
+  blockExplorerUrl: "https://etherscan.io",
   ticker: "ETH",
   tickerName: "Ethereum",
+  logo: "https://images.toruswallet.io/ethereum.svg",
 };
-
-const web3auth = new Web3AuthNoModal({
-  clientId,
-  chainConfig,
-  web3AuthNetwork: "sapphire_mainnet",
-});
 
 const privateKeyProvider = new EthereumPrivateKeyProvider({
   config: { chainConfig },
 });
 
+const web3auth = new Web3AuthNoModal({
+  clientId,
+  web3AuthNetwork: "sapphire_mainnet",
+  privateKeyProvider: privateKeyProvider,
+});
+
 const openloginAdapter = new OpenloginAdapter({
   privateKeyProvider,
   adapterSettings: {
-    uxMode: "redirect",
     loginConfig: {
       jwt: {
         verifier: "w3a-auth0-demo", // Pass the Verifier name here
@@ -272,6 +290,7 @@ const openloginAdapter = new OpenloginAdapter({
     },
   },
 });
+
 web3auth.configureAdapter(openloginAdapter);
 setWeb3auth(web3auth);
 

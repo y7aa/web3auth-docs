@@ -2,7 +2,7 @@
 title: Discord Social Login with Web3Auth
 sidebar_label: Discord
 
-displayed_sidebar: docs
+displayed_sidebar: resources
 description: "Discord Social Login with Web3Auth | Documentation - Web3Auth"
 ---
 
@@ -12,7 +12,7 @@ import DiscordSetup from "@site/src/common/guides/_discord-setup.mdx";
 
 :::info
 
-**[Using Discord with Web3Auth Guide](/content-hub/guides/discord)**
+**[Using Discord with Web3Auth Guide](/guides/discord)**
 
 :::
 
@@ -45,23 +45,27 @@ import { OpenloginAdapter } from "@web3auth/openlogin-adapter";
 const clientId = "BPi5PB_UiIZ-cPz1GtV5i1I2iOSOHuimiXBI0e-Oe_u6X3oVAbCiAZOTEBtTXw4tsluTITPqA8zMsfxIKMjiqNQ";
 // get it from https://dashboard.web3auth.io by creating a Plug n Play project.
 
+const chainConfig = {
+  chainNamespace: "eip155",
+  chainId: "0x1",
+  rpcTarget: "https://rpc.ankr.com/eth",
+  displayName: "Ethereum Mainnet",
+  blockExplorerUrl: "https://etherscan.io",
+  ticker: "ETH",
+  tickerName: "Ethereum",
+  logo: "https://images.toruswallet.io/ethereum.svg",
+};
+
+const privateKeyProvider = new EthereumPrivateKeyProvider({ config: { chainConfig } });
+
 const web3auth = new Web3Auth({
   clientId,
   web3AuthNetwork: "sapphire_mainnet",
-  chainConfig: {
-    chainNamespace: "eip155",
-    chainId: "0x1",
-    rpcTarget: "https://rpc.ankr.com/eth",
-    displayName: "Ethereum Mainnet",
-    blockExplorer: "https://etherscan.io",
-    ticker: "ETH",
-    tickerName: "Ethereum",
-  },
+  privateKeyProvider: privateKeyProvider,
 });
 
 const openloginAdapter = new OpenloginAdapter({
   adapterSettings: {
-    uxMode: "popup",
     loginConfig: {
       // Discord login
       discord: {
@@ -72,6 +76,7 @@ const openloginAdapter = new OpenloginAdapter({
     },
   },
 });
+
 web3auth.configureAdapter(openloginAdapter);
 
 // Initialize Modal
@@ -98,25 +103,24 @@ const chainConfig = {
   chainId: "0x1",
   rpcTarget: "https://rpc.ankr.com/eth",
   displayName: "Ethereum Mainnet",
-  blockExplorer: "https://etherscan.io",
+  blockExplorerUrl: "https://etherscan.io",
   ticker: "ETH",
-  tickerName: "Ethereum",
+  logo: "https://images.toruswallet.io/ethereum.svg",
 };
-
-const web3auth = new Web3Auth({
-  clientId,
-  chainConfig,
-  web3AuthNetwork: "sapphire_mainnet",
-});
 
 const privateKeyProvider = new EthereumPrivateKeyProvider({
   config: { chainConfig },
 });
 
+const web3auth = new Web3AuthNoModal({
+  clientId,
+  chainConfig,
+  web3AuthNetwork: "sapphire_mainnet",
+});
+
 const openloginAdapter = new OpenloginAdapter({
   privateKeyProvider,
   adapterSettings: {
-    uxMode: "redirect",
     loginConfig: {
       discord: {
         verifier: "w3a-discord-demo", // Pass the Verifier name here
@@ -126,7 +130,9 @@ const openloginAdapter = new OpenloginAdapter({
     },
   },
 });
+
 web3auth.configureAdapter(openloginAdapter);
+
 setWeb3auth(web3auth);
 
 // Initialize
@@ -205,25 +211,25 @@ const chainConfig = {
   chainId: "0x1",
   rpcTarget: "https://rpc.ankr.com/eth",
   displayName: "Ethereum Mainnet",
-  blockExplorer: "https://etherscan.io",
+  blockExplorerUrl: "https://etherscan.io",
   ticker: "ETH",
   tickerName: "Ethereum",
+  logo: "https://images.toruswallet.io/ethereum.svg",
 };
-
-const web3auth = new Web3Auth({
-  clientId,
-  chainConfig,
-  web3AuthNetwork: "sapphire_mainnet",
-});
 
 const privateKeyProvider = new EthereumPrivateKeyProvider({
   config: { chainConfig },
 });
 
+const web3auth = new Web3AuthNoModal({
+  clientId,
+  web3AuthNetwork: "sapphire_mainnet",
+  privateKeyProvider: privateKeyProvider,
+});
+
 const openloginAdapter = new OpenloginAdapter({
   privateKeyProvider,
   adapterSettings: {
-    uxMode: "redirect",
     loginConfig: {
       jwt: {
         verifier: "w3a-auth0-demo", // Pass the Verifier name here
@@ -233,6 +239,7 @@ const openloginAdapter = new OpenloginAdapter({
     },
   },
 });
+
 web3auth.configureAdapter(openloginAdapter);
 setWeb3auth(web3auth);
 

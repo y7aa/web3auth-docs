@@ -14,7 +14,6 @@ const { themes } = require("prism-react-renderer");
 const resourcesDropdown = fs.readFileSync("./src/components/navDropdown/resources.html", "utf-8");
 const helpDropdown = fs.readFileSync("./src/components/navDropdown/help.html", "utf-8");
 const sdkDropdown = fs.readFileSync("./src/components/navDropdown/sdk.html", "utf-8");
-const contentHubDropdown = fs.readFileSync("./src/components/navDropdown/content-hub.html", "utf-8");
 
 import type { Config } from "@docusaurus/types";
 import type * as Preset from "@docusaurus/preset-classic";
@@ -39,7 +38,8 @@ const config: Config = {
     },
     announcementBar: {
       id: "sign_up_for_wallets_ux_unconference",
-      content: '<a href="https://w3a.link/community-call" target="_blank">Secure your spot for the next community call! Sign up now →</a>',
+      content:
+        '<a href="https://w3a.link/community-call" target="_blank">Secure your spot for the next community call! Sign up now →</a>',
       isCloseable: true,
     },
     colorMode: {
@@ -74,6 +74,7 @@ const config: Config = {
         {
           label: "Resources",
           type: "dropdown",
+          to: "/resources",
           position: "left",
           items: [
             {
@@ -88,20 +89,19 @@ const config: Config = {
           position: "left",
         },
         {
-          label: "Content Hub",
-          type: "dropdown",
-          to: "/content-hub",
+          label: "Guides",
+          to: "/guides",
           position: "left",
-          items: [
-            {
-              type: "html",
-              value: contentHubDropdown,
-            },
-          ],
+        },
+        {
+          label: "Blog",
+          to: "https://blog.web3auth.io",
+          position: "left",
         },
         {
           label: "Help",
           type: "dropdown",
+          to: "/troubleshooting",
           position: "left",
           items: [
             {
@@ -137,7 +137,7 @@ const config: Config = {
       appId: "6OF28D8CMV",
       apiKey: "425a1e860cb4b9b4ce1f7d9b117c7a81",
       indexName: "docs-web3auth",
-      schedule: "every 1 day at 3:00 pm",
+      contextualSearch: true,
     },
     customFields: {
       baseUrl,
@@ -156,10 +156,13 @@ const config: Config = {
       {
         docs: {
           routeBasePath: "/",
-          breadcrumbs: false,
+          breadcrumbs: true,
           editUrl: githubEditUrl,
           sidebarPath: require.resolve("./sidebars.js"),
-          remarkPlugins: [remarkMath, [require("@docusaurus/remark-plugin-npm2yarn"), { sync: true }]],
+          remarkPlugins: [
+            remarkMath,
+            [require("@docusaurus/remark-plugin-npm2yarn"), { sync: true }],
+          ],
           rehypePlugins: [[rehypeKatex, { strict: false }]],
         },
         theme: {
@@ -172,36 +175,35 @@ const config: Config = {
           path: "src/pages",
           routeBasePath: "/",
           include: ["**/**.{js,jsx,ts,tsx,md,mdx}"],
-          exclude: ["**/_*.{js,jsx,ts,tsx,md,mdx}", "**/_*/**", "**/*.test.{js,jsx,ts,tsx}", "**/__tests__/**"],
+          exclude: [
+            "**/_*.{js,jsx,ts,tsx,md,mdx}",
+            "**/_*/**",
+            "**/*.test.{js,jsx,ts,tsx}",
+            "**/__tests__/**",
+          ],
           mdxPageComponent: "@theme/MDXPage",
-          remarkPlugins: [remarkMath, [require("@docusaurus/remark-plugin-npm2yarn"), { sync: true }]],
+          remarkPlugins: [
+            remarkMath,
+            [require("@docusaurus/remark-plugin-npm2yarn"), { sync: true }],
+          ],
           rehypePlugins: [[rehypeKatex, { strict: false }]],
           beforeDefaultRemarkPlugins: [],
           beforeDefaultRehypePlugins: [],
         },
         sitemap: {
-          changefreq: "weekly",
+          changefreq: "weekly" as any,
           priority: 0.8,
         },
       } satisfies Preset.Options,
     ],
   ],
   plugins: [
-    path.resolve(__dirname, "plugins", "docusaurus-plugin-content-hub"),
-    [path.resolve(__dirname, "plugins", "docusaurus-plugin-virtual-files"), { rootDir: ".integrationBuilderCache" }],
-    path.resolve(__dirname, "plugins", "node-polyfills"),
+    path.resolve(__dirname, "plugins", "docusaurus-plugin-guides"),
     [
-      path.resolve(__dirname, "plugins", "plugin-dynamic-route"),
-      {
-        routes: [
-          {
-            path: `${baseUrl}content-hub/blog/`,
-            exact: false,
-            component: "@site/src/components/BlogLayout/index",
-          },
-        ],
-      },
+      path.resolve(__dirname, "plugins", "docusaurus-plugin-virtual-files"),
+      { rootDir: ".integrationBuilderCache" },
     ],
+    path.resolve(__dirname, "plugins", "node-polyfills"),
     [
       "@docusaurus/plugin-client-redirects",
       {
@@ -221,10 +223,6 @@ const config: Config = {
           {
             from: "/developing-with-web3auth/",
             to: "/quick-start",
-          },
-          {
-            from: "/sdk/web/plugins/torus-wallet",
-            to: "/sdk/helper-sdks/plugins/evm-wallet",
           },
           {
             from: "/sdk/web/modal/wagmi-connector",
@@ -267,26 +265,6 @@ const config: Config = {
             to: "/how-web3auth-works",
           },
           {
-            from: "/overview/web3auth-and-wallets",
-            to: "/product-fit/web3auth-for-wallets",
-          },
-          {
-            from: "/overview/web3auth-for-wallets",
-            to: "/product-fit/web3auth-for-wallets",
-          },
-          {
-            from: "/overview/web3auth-for-dapps",
-            to: "/product-fit/web3auth-for-dapps",
-          },
-          {
-            from: "/overview/user-flow",
-            to: "/user-flow",
-          },
-          {
-            from: "/product-fit/user-flow",
-            to: "/user-flow",
-          },
-          {
             from: "/overview/key-management/",
             to: "/infrastructure/",
           },
@@ -301,50 +279,6 @@ const config: Config = {
           {
             from: "/infrastructure/technical-architecture/",
             to: "/infrastructure/",
-          },
-          {
-            from: "/whitelabeling",
-            to: "/pnp/features/whitelabel/",
-          },
-          {
-            from: "/whitelabel/",
-            to: "/pnp/features/whitelabel/",
-          },
-          {
-            from: "/interoperability",
-            to: "/pnp/features/interoperability",
-          },
-          {
-            from: "/dapp-share",
-            to: "/pnp/features/dapp-share",
-          },
-          {
-            from: "/authenticating-users/",
-            to: "/pnp/features/server-side-verification/",
-          },
-          {
-            from: "/authenticating-users/overview",
-            to: "/pnp/features/server-side-verification/",
-          },
-          {
-            from: "/server-side-verification/",
-            to: "/pnp/features/server-side-verification/",
-          },
-          {
-            from: "/server-side-verification/social-login-users",
-            to: "/pnp/features/server-side-verification/social-login-users",
-          },
-          {
-            from: "/server-side-verification/external-wallets",
-            to: "/pnp/features/server-side-verification/external-wallets",
-          },
-          {
-            from: "/developing-with-web3auth/adapters",
-            to: "/pnp/features/connect-external-wallets",
-          },
-          {
-            from: "/connect-external-wallets",
-            to: "/pnp/features/connect-external-wallets",
           },
           {
             from: "/developer-dashboard/",
@@ -387,8 +321,8 @@ const config: Config = {
             to: "/sdk/pnp/web/modal/mfa",
           },
           {
-            from: "/sdk/helper-sdks/providers/other",
-            to: "/sdk/helper-sdks/providers/common",
+            from: "/sdk/providers/other",
+            to: "/sdk/providers/common",
           },
           {
             from: "/sdk/tkey/initialization",
@@ -407,83 +341,218 @@ const config: Config = {
             to: "/sdk/core-kit/tkey/install",
           },
           {
-            from: "/content-hub/guides",
-            to: "/content-hub",
+            from: "/connect-blockchain/polygon",
+            to: "/connect-blockchain/evm/polygon",
           },
           {
-            from: "/content-hub/guides/mpc",
-            to: "/content-hub/guides/mpc-core-kit",
+            from: "/connect-blockchain/base",
+            to: "/connect-blockchain/evm/base",
+          },
+          {
+            from: "/connect-blockchain/bnb",
+            to: "/connect-blockchain/evm/bnb",
+          },
+          {
+            from: "/connect-blockchain/avalanche",
+            to: "/connect-blockchain/evm/avalanche",
+          },
+          {
+            from: "/connect-blockchain/arbitrum",
+            to: "/connect-blockchain/evm/arbitrum",
+          },
+          {
+            from: "/connect-blockchain/optimism",
+            to: "/connect-blockchain/evm/optimism",
+          },
+          {
+            from: "/connect-blockchain/cronos",
+            to: "/connect-blockchain/evm/cronos",
+          },
+          {
+            from: "/connect-blockchain/harmony",
+            to: "/connect-blockchain/evm/harmony",
+          },
+          {
+            from: "/connect-blockchain/celo",
+            to: "/connect-blockchain/evm/celo",
+          },
+          {
+            from: "/connect-blockchain/moonbeam",
+            to: "/connect-blockchain/evm/moonbeam",
+          },
+          {
+            from: "/connect-blockchain/moonriver",
+            to: "/connect-blockchain/evm/moonriver",
+          },
+          {
+            from: "/connect-blockchain/klaytn",
+            to: "/connect-blockchain/evm/klaytn/",
+          },
+          {
+            from: "/connect-blockchain/flare",
+            to: "/connect-blockchain/evm/flare",
+          },
+          {
+            from: "/connect-blockchain/songbird",
+            to: "/connect-blockchain/evm/songbird",
+          },
+          {
+            from: "/connect-blockchain/skale",
+            to: "/connect-blockchain/evm/skale",
+          },
+          {
+            from: "/connect-blockchain/starkex",
+            to: "/connect-blockchain/other/starkex",
+          },
+          {
+            from: "/connect-blockchain/starknet",
+            to: "/connect-blockchain/other/starknet",
+          },
+          {
+            from: "/connect-blockchain/tezos",
+            to: "/connect-blockchain/other/tezos",
+          },
+          {
+            from: "/connect-blockchain/algorand",
+            to: "/connect-blockchain/other/algorand",
+          },
+          {
+            from: "/connect-blockchain/immutablex",
+            to: "/connect-blockchain/other/immutablex",
+          },
+          {
+            from: "/connect-blockchain/aptos",
+            to: "/connect-blockchain/other/aptos",
+          },
+          {
+            from: "/connect-blockchain/cosmos",
+            to: "/connect-blockchain/other/cosmos",
+          },
+          {
+            from: "/connect-blockchain/near",
+            to: "/connect-blockchain/other/near",
+          },
+          {
+            from: "/connect-blockchain/polkadot",
+            to: "/connect-blockchain/other/polkadot",
+          },
+          {
+            from: "/connect-blockchain/polymesh",
+            to: "/connect-blockchain/other/polymesh",
+          },
+          {
+            from: "/account-abstraction/safeauth",
+            to: "/sdk/wallet-ecosystems/safeauth",
+          },
+          {
+            from: "/user-flow",
+            to: "/features/mfa",
+          },
+          {
+            from: "/pnp/features/connect-external-wallets",
+            to: "/features/wallet-aggregation",
+          },
+          {
+            from: "/pnp/features/dapp-share",
+            to: "/features/mfa",
+          },
+          {
+            from: "/pnp/going-live",
+            to: "/going-live",
+          },
+          {
+            from: "/core-kit/going-live",
+            to: "/going-live",
+          },
+          {
+            from: "/auth-provider-setup/federated-identity-providers",
+            to: "/auth-provider-setup/authentication-service-providers",
+          },
+          {
+            from: "/auth-provider-setup/byo-jwt-providers",
+            to: "/auth-provider-setup/byo-jwt-provider",
+          },
+          {
+            from: "/product-fit",
+            to: "/product/product-fit",
+          },
+          {
+            from: "/product-fit/pnp-vs-core-kit",
+            to: "/product/product-fit",
+          },
+          {
+            from: "/product-fit/partner-products",
+            to: "/product/wallet-ecosystems",
+          },
+          {
+            from: "/product-fit/enterprise",
+            to: "/product/wallet-ecosystems",
+          },
+          {
+            from: "/product-fit/web3auth-for-wallets",
+            to: "/product/#web3auth-for-wallets",
+          },
+          {
+            from: "/product-fit/web3auth-for-dapps",
+            to: "/product/#web3auth-for-dapps",
+          },
+          {
+            from: "/pnp/features/custom-authentication",
+            to: "/features/custom-authentication",
+          },
+          {
+            from: "/pnp/features/mfa",
+            to: "/features/mfa",
           },
         ],
         createRedirects(existingPath) {
-          if (existingPath.includes("/content-hub")) {
-            return [
-              existingPath.replace("/content-hub/guides", "/guides"),
-              existingPath.replace("/content-hub/guides", "/guide"),
-              existingPath.replace("/content-hub/blog", "/blogs"),
-              existingPath.replace("/content-hub/blog", "/blog"),
-              existingPath.replace("/content-hub/guides/auth0", "/customauth/auth0"),
-              existingPath.replace("/content-hub/guides/tkey", "/guides/selfhost"),
-              existingPath.replace("/content-hub/guides/single-factor-auth", "/guides/one-key-flow"),
-            ];
+          if (existingPath.includes("/guides/")) {
+            return [existingPath.replace("/guides/", "/content-hub/guides/")];
+          }
+          if (existingPath.includes("/pnp/features/whitelabel/")) {
+            return [existingPath.replace("/features/whitelabel", "/pnp/features/whitelabel/")];
+          }
+          if (existingPath.includes("/pnp-features/")) {
+            return [existingPath.replace("/features/", "/pnp-features/")];
           }
           if (existingPath.includes("/sdk")) {
-            return [existingPath.replace("/sdk", "/api-reference"), existingPath.replace("/sdk", "/sdk-reference")];
+            return [
+              existingPath.replace("/sdk", "/api-reference"),
+              existingPath.replace("/sdk", "/sdk-reference"),
+            ];
           }
           if (existingPath.includes("/sdk")) {
             return [
               existingPath.replace("/migration-guide/", "/migration-guides/no-modal-v5-to-v6"),
-              existingPath.replace("/migration-guide/migrating-to-v6-from-v5", "/migration-guides/no-modal-v5-to-v6"),
+              existingPath.replace(
+                "/migration-guide/migrating-to-v6-from-v5",
+                "/migration-guides/no-modal-v5-to-v6",
+              ),
             ];
           }
-          if (existingPath.includes("/auth-provider-setup")) {
-            return [existingPath.replace("/auth-provider-setup", "/custom-authentication")];
-          }
+          // if (existingPath.includes("/auth-provider-setup")) {
+          //   return [existingPath.replace("/auth-provider-setup", "/custom-authentication")];
+          // }
           if (existingPath.includes("/sdk/web/no-modal")) {
-            return [existingPath.replace("/sdk/web/no-modal", "/sdk/web/core"), existingPath.replace("/sdk/web/no-modal", "/sdk/web/customloginui")];
+            return [
+              existingPath.replace("/sdk/web/no-modal", "/sdk/web/core"),
+              existingPath.replace("/sdk/web/no-modal", "/sdk/web/customloginui"),
+            ];
           }
           if (existingPath.includes("/sdk/web/modal")) {
-            return [existingPath.replace("/sdk/web/modal", "/sdk/web/web3auth"), existingPath.replace("/sdk/web/modal", "/sdk/web/plugnplay")];
+            return [
+              existingPath.replace("/sdk/web/modal", "/sdk/web/web3auth"),
+              existingPath.replace("/sdk/web/modal", "/sdk/web/plugnplay"),
+            ];
           }
-          if (existingPath.includes("/sdk/tkey")) {
+          if (existingPath.includes("/sdk/self-host")) {
             return [existingPath.replace("/sdk/tkey", "/sdk/self-host")];
           }
-          if (existingPath.includes("integration-builder")) {
-            return [existingPath.replace("integration-builder", "quick-start")];
+          if (existingPath.includes("/integration-builder")) {
+            return [existingPath.replace("/quick-start", "/integration-builder")];
           }
           if (existingPath.includes("quickstart")) {
-            return [existingPath.replace("quickstart", "quick-start")];
-          }
-          if (existingPath.includes("/helper-sdks/providers")) {
-            return [existingPath.replace("/helper-sdks/providers", "/web/providers")];
-          }
-          if (existingPath.includes("/helper-sdks/plugins")) {
-            return [existingPath.replace("/helper-sdks/plugins", "/web/plugins")];
-          }
-          if (existingPath.includes("/pnp")) {
-            return [
-              existingPath.replace("/pnp/web", "/web"),
-              existingPath.replace("/pnp/android", "/android"),
-              existingPath.replace("/pnp/ios", "/ios"),
-              existingPath.replace("/pnp/react-native", "/react-native"),
-              existingPath.replace("/pnp/flutter", "/flutter"),
-              existingPath.replace("/pnp/unity", "/unity"),
-              existingPath.replace("/pnp/unreal", "/unreal"),
-            ];
-          }
-          if (existingPath.includes("/core-kit")) {
-            return [
-              existingPath.replace("/core-kit/sfa-node", "/node"),
-              existingPath.replace("/core-kit/sfa-node", "/core-kit/node"),
-              existingPath.replace("/core-kit/sfa-web", "/single-factor-auth"),
-              existingPath.replace("/core-kit/sfa-web", "/core-kit/single-factor-auth"),
-              existingPath.replace("/core-kit/sfa-android", "/single-factor-auth-android"),
-              existingPath.replace("/core-kit/sfa-android", "/core-kit/single-factor-auth-android"),
-              existingPath.replace("/core-kit/tkey", "/tkey"),
-              existingPath.replace("/core-kit/mpc-core-kit", "/mpc-core-kit"),
-              existingPath.replace("/core-kit/introduction", "/self-host/"),
-              existingPath.replace("/core-kit/introduction", "/self-hosting"),
-            ];
+            return [existingPath.replace("quick-start", "quickstart")];
           }
           return undefined; // Return a falsy value: no redirect created
         },
@@ -498,11 +567,6 @@ const config: Config = {
       crossorigin: "anonymous",
     },
   ],
-  customFields: {
-    // 'REACT_HYGRAPHCMS_ENDPOINT': process.env.REACT_HYGRAPHCMS_ENDPOINT,
-    REACT_CONTENTFUL_SPACE: process.env.REACT_CONTENTFUL_SPACE,
-    REACT_CONTENTFUL_TOKEN: process.env.REACT_CONTENTFUL_TOKEN,
-  },
 };
 
 async function createConfig() {

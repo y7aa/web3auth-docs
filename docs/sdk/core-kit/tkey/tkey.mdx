@@ -2,6 +2,7 @@
 title: Web3Auth tKey JS SDK
 image: "images/docs-meta-cards/documentation-card.png"
 displayed_sidebar: sdk
+sidebar_label: Overview
 description: "Web3Auth tKey JS SDK | Introduction"
 ---
 
@@ -9,6 +10,13 @@ import ExpoWarning from "@site/src/common/docs/_expo-warning.mdx";
 import TkeyIntroduction from "@site/src/common/docs/_tkey-intro.mdx";
 
 <TkeyIntroduction />
+
+:::note
+
+The minimum [pricing plan](https://web3auth.io/pricing.html) to use this SDK in a production environment is the **Enterprise Plan**. However, you can
+use this SDK with all features enabled in the development environment for free.
+
+:::
 
 :::caution
 
@@ -63,10 +71,10 @@ different shares generated in a way it is most suitable for your project.
 
 We have 3 types of modules available right now:
 
-- [**Default Modules**](/sdk/core-kit/tkey/modules/#default-modules): Modules needed for the basic operations of the tKey SDK.
-- [**Storage Modules**](/sdk/core-kit/tkey/modules/#storage-modules): Storage Modules are used to store the tKey shares in the user's device storage.
-- [**Recovery Modules**](/sdk/core-kit/tkey/modules/#recovery-modules): Recovery Modules are used to recover the tKey shares in the case user doesn't
-  have access to their device/storage or needs additional security.
+- [**Storage Modules**](/sdk/core-kit/tkey/modules/#storage-modules-share-b): Storage Modules are used to store the tKey shares in the user's device
+  storage.
+- [**Recovery Modules**](/sdk/core-kit/tkey/modules/#recovery-modules-share-c): Recovery Modules are used to recover the tKey shares in the case user
+  doesn't have access to their device/storage or needs additional security.
 - [**Additional Modules**](/sdk/core-kit/tkey/modules/#additional-modules): These modules provide extra capability to the tKey SDK, like importing
   user's existing private keys or seedphrases.
 
@@ -111,27 +119,9 @@ one can easily get the private key from the Web3Auth SDK.
 
 :::tip
 
-Checkout the [Providers SDK Reference](/sdk/helper-sdks/providers) to learn more.
+Checkout the [Providers SDK Reference](/sdk/providers) to learn more.
 
-- [For EVM based Chains `@web3auth/ethereum-provider`](/sdk/helper-sdks/providers/evm)
-- [For Solana Blockchain `@web3auth/solana-provider`](/sdk/helper-sdks/providers/solana)
-
-:::
-
-### Plugin packages
-
-Plugins extend the functionality of Web3Auth, helping you to add more features to your application. These features can be used to extend the UI
-functionalities, making your Web3Auth instance more interoperable, adding wallet features and a lot more!
-
-Currently, we support UI plugins for wallet operations, helping you with flows to add funds, manage transactions, provide wallet UI and much more.
-This helps you avoid making wallet flows within your application. Additionally, for interoperability with multiple applications, these packages give
-you the advantage of using the same key from Web3Auth across multiple applications.
-
-:::tip
-
-Checkout the [Plugins SDK Reference](/sdk/helper-sdks/plugins) to learn more.
-
-- [EVM Wallet UI Plugin `@web3auth/torus-wallet-connector-plugin`](/sdk/helper-sdks/plugins/evm-wallet)
-- [Solana Wallet UI Plugin `@web3auth/solana-wallet-connector-plugin`](/sdk/helper-sdks/plugins/solana-wallet)
+- [For EVM based Chains `@web3auth/ethereum-provider`](/sdk/providers/evm)
+- [For Solana Blockchain `@web3auth/solana-provider`](/sdk/providers/solana)
 
 :::
